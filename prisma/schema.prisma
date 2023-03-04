@@ -9,3 +9,68 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model user {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  email      String
+  hash       String
+  name       String?
+}
+
+model borrower {
+  borrower_id       String   @unique
+  name              String
+  current_address   String
+  temporary_address String
+  email             String
+  phone_number      String
+  date_of_birth     DateTime
+  tax_number        String
+  total_salary      Decimal
+  saving_amount     Decimal
+  offset_account_id String
+}
+
+model application {
+  application_id       Int      @id @default(autoincrement())
+  application_amount   Decimal
+  loan_period          Int
+  created_date         DateTime
+  settlement_date      DateTime
+  drawdown_date        DateTime
+  status               String
+  borrower_id          String
+  broker_id            String
+  prop_address         String
+  prop_estimated_value String
+  offset_account_id    String
+}
+
+model broker {
+  broker_id       String @id
+  broker_name     String
+  aggregator_name String
+  broker_email    String
+}
+
+model loan_detail {
+  loan_detail_id     Int     @id
+  application_id     Int
+  offset_account_id  String
+  application_amount Decimal
+  broker_rate        Decimal
+  commission_quote   Decimal
+}
+
+model commission_calculation {
+  commission_calculation_id Int     @id
+  loan_detail_id            Int
+  drawdown_amount           Decimal
+  offset_balance            Decimal
+  gst                       Decimal
+  payable                   Decimal
+  gst_amount                Decimal
+  calculated_amount         Decimal
+}
