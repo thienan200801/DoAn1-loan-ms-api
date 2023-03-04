@@ -20,7 +20,7 @@ model user {
 }
 
 model borrower {
-  borrower_id       String   @unique
+  borrower_id       String        @unique
   name              String
   current_address   String
   temporary_address String
@@ -31,6 +31,7 @@ model borrower {
   total_salary      Decimal
   saving_amount     Decimal
   offset_account_id String
+  application       application[]
 }
 
 model application {
@@ -46,26 +47,31 @@ model application {
   prop_address         String
   prop_estimated_value String
   offset_account_id    String
+  borrower             borrower @relation(fields: [borrower_id], references: [borrower_id])
+  broker               broker[]
 }
 
 model broker {
-  broker_id       String @id
+  broker_id       String      @id
   broker_name     String
   aggregator_name String
   broker_email    String
+  application_id  Int
+  application     application @relation(fields: [application_id], references: [application_id])
 }
 
 model loan_detail {
-  loan_detail_id     Int     @id
-  application_id     Int
-  offset_account_id  String
-  application_amount Decimal
-  broker_rate        Decimal
-  commission_quote   Decimal
+  loan_detail_id         Int                      @id
+  application_id         Int
+  offset_account_id      String
+  application_amount     Decimal
+  broker_rate            Decimal
+  commission_quote       Decimal
+  commission_calculation commission_calculation[]
 }
 
 model commission_calculation {
-  commission_calculation_id Int     @id
+  commission_calculation_id Int         @id
   loan_detail_id            Int
   drawdown_amount           Decimal
   offset_balance            Decimal
@@ -73,4 +79,5 @@ model commission_calculation {
   payable                   Decimal
   gst_amount                Decimal
   calculated_amount         Decimal
+  loan_detail               loan_detail @relation(fields: [loan_detail_id], references: [loan_detail_id])
 }
