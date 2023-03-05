@@ -14,7 +14,7 @@ model user {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  email      String
+  email      String   @unique
   hash       String
   name       String?
 }
@@ -32,6 +32,7 @@ model borrower {
   saving_amount     Decimal
   offset_account_id String
   application       application[]
+  broker            broker[]
 }
 
 model application {
@@ -42,22 +43,24 @@ model application {
   settlement_date      DateTime
   drawdown_date        DateTime
   status               String
-  borrower_id          String
   broker_id            String
   prop_address         String
   prop_estimated_value String
   offset_account_id    String
+  borrower_id          String
   borrower             borrower @relation(fields: [borrower_id], references: [borrower_id])
   broker               broker[]
 }
 
 model broker {
-  broker_id       String      @id
-  broker_name     String
-  aggregator_name String
-  broker_email    String
-  application_id  Int
-  application     application @relation(fields: [application_id], references: [application_id])
+  broker_id                 String       @id
+  broker_name               String
+  aggregator_name           String
+  broker_email              String
+  borrower_id               String
+  borrower                  borrower     @relation(fields: [borrower_id], references: [borrower_id])
+  application               application? @relation(fields: [applicationApplication_id], references: [application_id])
+  applicationApplication_id Int?
 }
 
 model loan_detail {
