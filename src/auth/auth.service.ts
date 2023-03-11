@@ -26,10 +26,8 @@ export class AuthService {
                 }
             }
             console.log(error)
-            return 'Error roi ne'
+            return 'Error occurs'
         }
-        // return 'andie'
-        
     }
 
     async login(dto: AuthDto){
