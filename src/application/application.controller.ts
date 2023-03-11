@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { ApplicationDto } from './dto/application.dto';
 
@@ -9,5 +9,10 @@ export class ApplicationController {
     @Post('applications')
     submitApplication(@Body() dto: ApplicationDto){
         return this.applicationService.submitApplication(dto);
+    }
+
+    @Get('/:application_id')
+    getApplicationById(@Param('application_id') id){
+        return this.applicationService.getApplicationById(id);
     }
 }

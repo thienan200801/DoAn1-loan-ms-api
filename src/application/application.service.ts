@@ -29,4 +29,18 @@ export class ApplicationService {
             return 'Error occurs'
         }
     }
+
+    async getApplicationById(applicationId: string){
+        try {
+            const application = this.prisma.application.findFirst({
+                where: {
+                    application_id: parseInt(applicationId)
+                },
+              });
+            return application;
+        } catch (error) {
+            console.log(error)
+            return 'Error occurs' 
+        }
+    }
 }
