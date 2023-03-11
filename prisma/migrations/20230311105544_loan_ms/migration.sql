@@ -29,16 +29,16 @@ CREATE TABLE "borrower" (
 CREATE TABLE "application" (
     "application_id" SERIAL NOT NULL,
     "application_amount" DECIMAL(65,30) NOT NULL,
-    "loan_period" INTEGER NOT NULL,
+    "loan_period" TEXT NOT NULL,
     "created_date" TIMESTAMP(3) NOT NULL,
     "settlement_date" TIMESTAMP(3) NOT NULL,
     "drawdown_date" TIMESTAMP(3) NOT NULL,
     "status" TEXT NOT NULL,
-    "borrower_id" TEXT NOT NULL,
     "broker_id" TEXT NOT NULL,
     "prop_address" TEXT NOT NULL,
     "prop_estimated_value" TEXT NOT NULL,
     "offset_account_id" TEXT NOT NULL,
+    "borrower_id" TEXT NOT NULL,
 
     CONSTRAINT "application_pkey" PRIMARY KEY ("application_id")
 );
@@ -49,7 +49,8 @@ CREATE TABLE "broker" (
     "broker_name" TEXT NOT NULL,
     "aggregator_name" TEXT NOT NULL,
     "broker_email" TEXT NOT NULL,
-    "application_id" INTEGER NOT NULL,
+    "borrower_id" TEXT NOT NULL,
+    "applicationApplication_id" INTEGER,
 
     CONSTRAINT "broker_pkey" PRIMARY KEY ("broker_id")
 );
@@ -81,13 +82,19 @@ CREATE TABLE "commission_calculation" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "borrower_borrower_id_key" ON "borrower"("borrower_id");
 
 -- AddForeignKey
 ALTER TABLE "application" ADD CONSTRAINT "application_borrower_id_fkey" FOREIGN KEY ("borrower_id") REFERENCES "borrower"("borrower_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "broker" ADD CONSTRAINT "broker_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "application"("application_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "broker" ADD CONSTRAINT "broker_borrower_id_fkey" FOREIGN KEY ("borrower_id") REFERENCES "borrower"("borrower_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "broker" ADD CONSTRAINT "broker_applicationApplication_id_fkey" FOREIGN KEY ("applicationApplication_id") REFERENCES "application"("application_id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "commission_calculation" ADD CONSTRAINT "commission_calculation_loan_detail_id_fkey" FOREIGN KEY ("loan_detail_id") REFERENCES "loan_detail"("loan_detail_id") ON DELETE RESTRICT ON UPDATE CASCADE;
