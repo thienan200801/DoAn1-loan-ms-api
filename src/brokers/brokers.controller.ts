@@ -9,4 +9,9 @@ export class BrokersController {
     getBrokersById(@Param('brokers_id') id){
         return this.BrokersService.getBrokersById(id);
     }
+
+    @Get('/:brokers_id/applications')
+    getApplicationByBrokerId(@Param('brokers_id') id){
+        return this.BrokersService.getApplicationByBrokerId(id);
+    }
 }

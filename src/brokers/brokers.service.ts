@@ -15,7 +15,21 @@ export class BrokersService {
             return broker;
         } catch (error) {
             console.log(error)
-            return 'Error occurs' 
+            return error
+        }
+    }
+
+    async getApplicationByBrokerId(brokerId: string){
+        try{
+            const application = this.prisma.application.findFirst({
+                where: {
+                    broker_id: brokerId
+                },
+            });
+            return application;
+        } catch (error) {
+            console.log(error);
+            return error
         }
     }
 }
