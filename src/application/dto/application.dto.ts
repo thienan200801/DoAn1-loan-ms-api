@@ -6,3 +6,7 @@ export class ApplicationDto {
     brokerId: string;
     borrowerId: string;
 }
+
+export class DrawdownEventDto {
+    application_id: number;
+}
