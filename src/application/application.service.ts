@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ApplicationDto } from './dto/application.dto';
+import { ApplicationDto, DrawdownEventDto } from './dto/application.dto';
 
 @Injectable()
 export class ApplicationService {
@@ -41,6 +41,30 @@ export class ApplicationService {
         } catch (error) {
             console.log(error)
             return 'Error occurs' 
+        }
+    }
+
+    async submitDrawdownEvent(dto: DrawdownEventDto){
+        try{
+            const application = await this.prisma.application.create({
+                data: {
+                    created_date: new Date(),
+                    settlement_date: new Date(),
+                    drawdown_date: new Date(),
+                    status: '',
+                    offset_account_id: '',
+                    prop_address: '',
+                    prop_estimated_value: '',
+                    loan_period: 2023,
+                    application_amount: 10000,
+                    broker_id: "11111",
+                    borrower_id: "15777"
+                },
+            });
+            return application.application_id
+        }catch (error){
+            console.log(error)
+            return 'Error occurs'
         }
     }
 }

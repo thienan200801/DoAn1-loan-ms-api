@@ -44,23 +44,22 @@ model application {
   drawdown_date        DateTime
   status               String
   broker_id            String
+  broker               broker   @relation(fields: [broker_id], references: [broker_id])
   prop_address         String
   prop_estimated_value String
   offset_account_id    String
   borrower_id          String
   borrower             borrower @relation(fields: [borrower_id], references: [borrower_id])
-  broker               broker[]
 }
 
 model broker {
-  broker_id                 String       @id
-  broker_name               String
-  aggregator_name           String
-  broker_email              String
-  borrower_id               String
-  borrower                  borrower     @relation(fields: [borrower_id], references: [borrower_id])
-  application               application? @relation(fields: [applicationApplication_id], references: [application_id])
-  applicationApplication_id Int?
+  broker_id       String        @id
+  broker_name     String
+  aggregator_name String
+  broker_email    String
+  borrower_id     String
+  borrower        borrower      @relation(fields: [borrower_id], references: [borrower_id])
+  application     application[]
 }
 
 model loan_detail {

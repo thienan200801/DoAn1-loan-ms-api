@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApplicationService } from './application.service';
-import { ApplicationDto } from './dto/application.dto';
+import { ApplicationDto, DrawdownEventDto } from './dto/application.dto';
 
 @Controller('application')
 export class ApplicationController {
@@ -14,5 +14,10 @@ export class ApplicationController {
     @Get('/:application_id')
     getApplicationById(@Param('application_id') id){
         return this.applicationService.getApplicationById(id);
+    }
+
+    @Post('drawdown')
+    submitDrawdownEvent(@Body() dto: DrawdownEventDto){
+        return this.applicationService.submitDrawdownEvent(dto);
     }
 }
